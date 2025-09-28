@@ -28,7 +28,7 @@
 
 ### Задание 1
 
-`Приведите ответ в свободной форме........`
+[`Ссылка на коммит`](https://github.com/netology-code/sdvps_homeworks_8-01_git_04.2025/commit/03a413cd7319012cb9a6cbf6d3aa4e613bb71a60)
 
 
 
