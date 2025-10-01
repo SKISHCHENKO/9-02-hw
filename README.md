@@ -37,7 +37,7 @@
 
 ![alt text](https://github.com/SKISHCHENKO/8-03-hw/blob/main/img/task1_2.jpg)
 
-![alt text](https://github.com/SKISHCHENKO/8-03-hw/blob/main/img/task1_3.jpg)
+![alt text](https://github.com/SKISHCHENKO/8-03-hw/blob/main/img/task1_3.png)
 
 
 
