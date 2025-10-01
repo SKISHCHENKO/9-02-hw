@@ -157,6 +157,6 @@ go_build:
 
 ![alt text](https://github.com/SKISHCHENKO/8-03-hw/blob/main/img/task2_1.jpg)
 
-![alt text](https://github.com/SKISHCHENKO/8-03-hw/blob/main/img/task2_2.png)
+![alt text](https://github.com/SKISHCHENKO/8-03-hw/blob/main/img/task2_2.jpg)
 
 
