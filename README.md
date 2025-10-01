@@ -45,9 +45,118 @@
 
 ### Задание 2
 
-[`Ссылка на коммит`](https://github.com/netology-code/sys-pattern-homework/commit/942b850e8adfd685385021a296bc3dc49141fc83)
+** Описание:**
+Что нужно сделать:
+
+Запушьте репозиторий на GitLab, изменив origin. Это изучалось на занятии по Git.  
+Создайте .gitlab-ci.yml, описав в нём все необходимые, на ваш взгляд, этапы.  
+В качестве ответа в шаблон с решением добавьте:  
+
+файл gitlab-ci.yml для своего проекта или вставьте код в соответствующее поле в шаблоне;  
+скриншоты с успешно собранными сборками.  
+
+Файл .gitlab-ci.yml:  
+```
+stages:
+  - info
+  - lint
+  - test
+  - build
+
+# Кэш для ускорения повторных сборок
+cache:
+  key: "go-${CI_COMMIT_REF_SLUG}"
+  paths:
+    - /go/pkg/mod/       # модули
+    - /go/cache/         # go build/test cache
+
+ci_info:
+  stage: info
+  image: alpine:3.19
+  # tags: ["docker"]
+  script:
+    - uname -a | tee ci_info.txt
+    - 'echo "Runner: ${CI_RUNNER_DESCRIPTION:-unknown}" | tee -a ci_info.txt'
+  artifacts:
+    when: always
+    expire_in: 7 days
+    paths:
+      - ci_info.txt
+
+# 1) Go lint (go vet)
+go_lint:
+  stage: lint
+  image: golang:1.22
+  # tags: ["docker"]
+  variables:
+    GOPATH: /go
+    GOCACHE: /go/cache
+    CGO_ENABLED: "0"
+  before_script:
+    - |
+      if [ ! -f go.mod ]; then
+        go mod init ${CI_PROJECT_PATH//\//_}
+      fi
+    - go mod tidy
+  script:
+    - go vet ./...
+
+# 2) Тесты с покрытием
+go_test:
+  stage: test
+  image: golang:1.22
+  # tags: ["docker"]
+  variables:
+    GOPATH: /go
+    GOCACHE: /go/cache
+    CGO_ENABLED: "0"
+  before_script:
+    - |
+      if [ ! -f go.mod ]; then
+        go mod init ${CI_PROJECT_PATH//\//_}
+      fi
+    - go mod tidy
+  script:
+    - go test ./... -v -coverprofile=coverage.out | tee test-report.txt
+  artifacts:
+    when: always
+    expire_in: 7 days
+    paths:
+      - test-report.txt
+      - coverage.out
+
+# 3) Сборка бинарника
+go_build:
+  stage: build
+  image: golang:1.22
+  # tags: ["docker"]
+  variables:
+    GOPATH: /go
+    GOCACHE: /go/cache
+    CGO_ENABLED: "0"
+  before_script:
+    - |
+      if [ ! -f go.mod ]; then
+        go mod init ${CI_PROJECT_PATH//\//_}
+      fi
+    - go mod tidy
+  script:
+    - mkdir -p bin
+    - go build -o bin/hello .
+    - file bin/hello || true
+    - ./bin/hello world | tee run-output.txt
+  artifacts:
+    name: "hello-${CI_COMMIT_SHORT_SHA}"
+    expire_in: 7 days
+    paths:
+      - bin/hello
+      - run-output.txt
 
 
----
+```
+
+![alt text](https://github.com/SKISHCHENKO/8-03-hw/blob/main/img/task2_1.jpg)
+
+![alt text](https://github.com/SKISHCHENKO/8-03-hw/blob/main/img/task2_2.png)
 
 
