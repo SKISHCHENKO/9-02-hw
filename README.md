@@ -124,10 +124,57 @@ sudo systemctl restart zabbix-agent                                             
 4.Приложите в файл README.md текст использованных команд в GitHub  
 
 
+## Решение 2  
+
+
+# 1. Хосты и их состояние  
+
+![alt text](https://github.com/SKISHCHENKO/8-03-hw/blob/main/img/zabbix2_1.png)
+
+## 2. Лог агента (работа с сервером)  
+
+![alt text](https://github.com/SKISHCHENKO/8-03-hw/blob/main/img/zabbix2_2.png)
+
+## 3. Latest Data  
+
+![alt text](https://github.com/SKISHCHENKO/8-03-hw/blob/main/img/zabbix2_3.png)
+
+
 ```
 
-![alt text](https://github.com/SKISHCHENKO/8-03-hw/blob/main/img/task2_1.jpg)
+# Список команд в терминале  для установки Zabbix Agent на Ubuntu 22.04 (Jammy) и на Ubuntu 24.04 (Nobles)  
 
-![alt text](https://github.com/SKISHCHENKO/8-03-hw/blob/main/img/task2_2.jpg)
+Установка Zabbix Agent на Ubuntu 22.04 (Jammy) (сервер, где Zabbix Server и Agent вместе)    
 
+sudo apt update  
+sudo apt install -y zabbix-agent  
+
+# Настройка конфига агента  
+sudo sed -i 's/^#\?Server=.*/Server=127.0.0.1/' /etc/zabbix/zabbix_agentd.conf  
+sudo sed -i 's/^#\?ServerActive=.*/ServerActive=127.0.0.1/' /etc/zabbix/zabbix_agentd.conf  
+sudo sed -i 's/^#\?Hostname=.*/Hostname=Zabbix server/' /etc/zabbix/zabbix_agentd.conf  
+
+# Запуск и автозагрузка  
+sudo systemctl enable --now zabbix-agent  
+sudo systemctl status zabbix-agent  
+
+
+Установка Zabbix Agent на Ubuntu 24.04 (Noble) (вторая ВМ — клиент с IP 192.168.56.103)  
+
+cd /tmp  
+wget https://repo.zabbix.com/zabbix/6.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_latest_6.0+ubuntu24.04_all.deb  
+sudo dpkg -i zabbix-release_latest_6.0+ubuntu24.04_all.deb  
+sudo apt update  
+sudo apt install -y zabbix-agent  
+
+# Настройка конфига агента
+sudo sed -i 's/^#\?Server=.*/Server=192.168.56.104/' /etc/zabbix/zabbix_agentd.conf  
+sudo sed -i 's/^#\?ServerActive=.*/ServerActive=192.168.56.104/' /etc/zabbix/zabbix_agentd.conf  
+sudo sed -i 's/^#\?Hostname=.*/Hostname=ubuntu-noble/' /etc/zabbix/zabbix_agentd.conf  
+
+# Запуск и автозагрузка  
+sudo systemctl enable --now zabbix-agent  
+sudo systemctl status zabbix-agent  
+
+```
 
