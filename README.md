@@ -1,4 +1,4 @@
-# Домашнее задание к занятию "GitLab" - Кищенко Сергей FOPS-41
+# Домашнее задание к занятию «Система мониторинга Zabbix» - Кищенко Сергей FOPS-41
 
 
 ### Инструкция по выполнению домашнего задания
@@ -25,19 +25,75 @@
 
 ## Задание 1
 
-** Описание:**
-Что нужно сделать:
+Установите Zabbix Server с веб-интерфейсом.  
 
-Разверните GitLab локально, используя Vagrantfile и инструкцию, описанные в этом репозитории.  
-Создайте новый проект и пустой репозиторий в нём.  
-Зарегистрируйте gitlab-runner для этого проекта и запустите его в режиме Docker. Раннер можно регистрировать и запускать на той же виртуальной машине, на которой запущен GitLab.  
-В качестве ответа в репозиторий шаблона с решением добавьте скриншоты с настройками раннера в проекте.  
+Процесс выполнения  
+      1.Выполняя ДЗ, сверяйтесь с процессом отражённым в записи лекции.  
+      2.Установите PostgreSQL. Для установки достаточна та версия, что есть в системном репозитороии Debian 11.  
+      3.Пользуясь конфигуратором команд с официального сайта, составьте набор команд для установки последней версии Zabbix с поддержкой PostgreSQL и Apache.  
+      4.Выполните все необходимые команды для установки Zabbix Server и Zabbix Web Server.  
+Требования к результатам  
+      1.Прикрепите в файл README.md скриншот авторизации в админке.  
+      2.Приложите в файл README.md текст использованных команд в GitHub.   
 
-![alt text](https://github.com/SKISHCHENKO/8-03-hw/blob/main/img/task1_1.jpg)
 
-![alt text](https://github.com/SKISHCHENKO/8-03-hw/blob/main/img/task1_2.jpg)
+## Решение 1  
 
-![alt text](https://github.com/SKISHCHENKO/8-03-hw/blob/main/img/task1_3.png)
+### Список команд в терминале  для установки Zabbix Server 6.0 + PostgreSQL + Zabbix Agent на Ubuntu 22.04 (Jammy),
+
+                Команда	                                                                          Назначение  
+sudo apt update && sudo apt upgrade -y	                                                  Обновление индексов пакетов и системы  
+sudo apt install -y wget gnupg lsb-release ca-certificates curl	                          Установка вспомогательных пакетов для добавления репозиториев  
+wget https://repo.zabbix.com/zabbix/6.0/ubuntu/pool/main/z/zabbix-release/
+zabbix-release_6.0-4+ubuntu22.04_all.deb	                                                Загрузка пакета репозитория Zabbix 6.0  
+sudo dpkg -i zabbix-release_6.0-4+ubuntu22.04_all.deb	                                    Установка репозитория Zabbix  
+sudo apt update                                                                         	Обновление списка пакетов с учётом нового репозитория  
+sudo apt install -y postgresql postgresql-contrib	                                        Установка PostgreSQL сервера и вспомогательных модулей  
+sudo systemctl status postgresql	                                                        Проверка, что PostgreSQL запущен  
+sudo -u postgres psql	                                                                    Вход в консоль PostgreSQL  
+CREATE USER zabbix WITH PASSWORD 'zabbixpass';	                                          Создание пользователя базы данных для Zabbix  
+CREATE DATABASE zabbix OWNER zabbix;                                                    	Создание базы данных Zabbix и назначение владельца  
+GRANT ALL PRIVILEGES ON DATABASE zabbix TO zabbix;                                      	Выдача прав пользователю на базу  
+\q	                                                                                      Выход из PostgreSQL   
+sudo apt install -y zabbix-server-pgsql zabbix-frontend-php php8.1-pgsql 
+zabbix-agent apache2 libapache2-mod-php php php-bcmath php-xml php-mbstring 
+php-ldap php-gd php-zip php-json                                                        	Установка Zabbix Server, веб-интерфейса, агента, Apache и PHP 
+cd /tmp	                                                                                  Переход в временный каталог  
+wget https://cdn.zabbix.com/zabbix/sources/stable/6.0/zabbix-6.0.31.tar.gz	              Загрузка исходников с SQL-скриптами  
+tar -xzf zabbix-6.0.31.tar.gz                                                            	Распаковка архива Zabbix  
+zcat /usr/share/zabbix-sql-scripts/postgresql/server.sql.gz | sudo -u zabbix psql zabbix  Импорт схемы и данных  
+sudo nano /etc/zabbix/zabbix_server.conf                                                	Открытие основного конфига Zabbix Server для редактирования  
+(внутри nano добавить строки)  
+DBHost=localhost  
+DBName=zabbix  
+DBUser=zabbix  
+DBPassword=zabbixpass  
+
+	Настройка подключения Zabbix Server к PostgreSQL  
+
+sudo chown zabbix:zabbix /etc/zabbix/zabbix_server.conf	                                Назначение владельца файла конфигурации  
+sudo chmod 640 /etc/zabbix/zabbix_server.conf	                                          Установка корректных прав доступа   
+sudo nano /etc/apache2/conf-available/zabbix.conf	                                      Создание конфигурации Apache для веб-интерфейса Zabbix  
+
+sudo a2enconf zabbix	                                                                 Активация конфигурации Zabbix в Apache  
+sudo systemctl restart apache2	                                                       Перезапуск веб-сервера Apache  
+sudo systemctl restart zabbix-server zabbix-agent	                                     Перезапуск служб Zabbix Server и Agent  
+sudo systemctl enable zabbix-server zabbix-agent apache2	                             Включение автозапуска сервисов  
+sudo systemctl status zabbix-server	                                                   Проверка работы Zabbix Server  
+
+sudo nano /etc/zabbix/zabbix_agentd.conf	                                             Открытие конфига Zabbix Agent для настройки  
+(внутри добавить)  
+Server=127.0.0.1  
+ServerActive=127.0.0.1  
+Hostname=Zabbix server	
+
+Настройка агента для работы с локальным сервером  
+
+sudo systemctl restart zabbix-agent                                                   Перезапуск агента  
+
+(в браузере) http://localhost/zabbix или http://10.0.2.15/zabbix	Запуск веб-интерфейса для первичной настройки  
+
+![alt text](https://github.com/SKISHCHENKO/9-02-hw/blob/main/img/zabbix1_1.jpg)
 
 
 
@@ -45,112 +101,23 @@
 
 ### Задание 2
 
-** Описание:**
-Что нужно сделать:
 
-Запушьте репозиторий на GitLab, изменив origin. Это изучалось на занятии по Git.  
-Создайте .gitlab-ci.yml, описав в нём все необходимые, на ваш взгляд, этапы.  
-В качестве ответа в шаблон с решением добавьте:  
+Установите Zabbix Agent на два хоста.  
 
-файл gitlab-ci.yml для своего проекта или вставьте код в соответствующее поле в шаблоне;  
-скриншоты с успешно собранными сборками.  
+Процесс выполнения  
 
-Файл .gitlab-ci.yml:  
-```
-stages:
-  - info
-  - lint
-  - test
-  - build
+1.Выполняя ДЗ, сверяйтесь с процессом отражённым в записи лекции.  
+2.Установите Zabbix Agent на 2 вирт.машины, одной из них может быть ваш Zabbix Server.  
+3.Добавьте Zabbix Server в список разрешенных серверов ваших Zabbix Agentов.  
+4.Добавьте Zabbix Agentов в раздел Configuration > Hosts вашего Zabbix Servera.  
+5.Проверьте, что в разделе Latest Data начали появляться данные с добавленных агентов.  
 
-# Кэш для ускорения повторных сборок
-cache:
-  key: "go-${CI_COMMIT_REF_SLUG}"
-  paths:
-    - /go/pkg/mod/       # модули
-    - /go/cache/         # go build/test cache
+Требования к результатам  
 
-ci_info:
-  stage: info
-  image: alpine:3.19
-  # tags: ["docker"]
-  script:
-    - uname -a | tee ci_info.txt
-    - 'echo "Runner: ${CI_RUNNER_DESCRIPTION:-unknown}" | tee -a ci_info.txt'
-  artifacts:
-    when: always
-    expire_in: 7 days
-    paths:
-      - ci_info.txt
-
-# 1) Go lint (go vet)
-go_lint:
-  stage: lint
-  image: golang:1.22
-  # tags: ["docker"]
-  variables:
-    GOPATH: /go
-    GOCACHE: /go/cache
-    CGO_ENABLED: "0"
-  before_script:
-    - |
-      if [ ! -f go.mod ]; then
-        go mod init ${CI_PROJECT_PATH//\//_}
-      fi
-    - go mod tidy
-  script:
-    - go vet ./...
-
-# 2) Тесты с покрытием
-go_test:
-  stage: test
-  image: golang:1.22
-  # tags: ["docker"]
-  variables:
-    GOPATH: /go
-    GOCACHE: /go/cache
-    CGO_ENABLED: "0"
-  before_script:
-    - |
-      if [ ! -f go.mod ]; then
-        go mod init ${CI_PROJECT_PATH//\//_}
-      fi
-    - go mod tidy
-  script:
-    - go test ./... -v -coverprofile=coverage.out | tee test-report.txt
-  artifacts:
-    when: always
-    expire_in: 7 days
-    paths:
-      - test-report.txt
-      - coverage.out
-
-# 3) Сборка бинарника
-go_build:
-  stage: build
-  image: golang:1.22
-  # tags: ["docker"]
-  variables:
-    GOPATH: /go
-    GOCACHE: /go/cache
-    CGO_ENABLED: "0"
-  before_script:
-    - |
-      if [ ! -f go.mod ]; then
-        go mod init ${CI_PROJECT_PATH//\//_}
-      fi
-    - go mod tidy
-  script:
-    - mkdir -p bin
-    - go build -o bin/hello .
-    - file bin/hello || true
-    - ./bin/hello world | tee run-output.txt
-  artifacts:
-    name: "hello-${CI_COMMIT_SHORT_SHA}"
-    expire_in: 7 days
-    paths:
-      - bin/hello
-      - run-output.txt
+1.Приложите в файл README.md скриншот раздела Configuration > Hosts, где видно, что агенты подключены к серверу  
+2.Приложите в файл README.md скриншот лога zabbix agent, где видно, что он работает с сервером  
+3.Приложите в файл README.md скриншот раздела Monitoring > Latest data для обоих хостов, где видны поступающие от агентов данные.  
+4.Приложите в файл README.md текст использованных команд в GitHub  
 
 
 ```
