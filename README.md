@@ -41,7 +41,7 @@
 
 ## Решение 1  
 
-### Список команд в терминале  для установки Zabbix Server 6.0 + PostgreSQL + Zabbix Agent на Ubuntu 22.04 (Jammy),
+# Список команд в терминале  для установки Zabbix Server 6.0 + PostgreSQL + Zabbix Agent на Ubuntu 22.04 (Jammy)
 
 ```
                 Команда	                                                                          Назначение  
