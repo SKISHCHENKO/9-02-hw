@@ -32,7 +32,9 @@
       2.Установите PostgreSQL. Для установки достаточна та версия, что есть в системном репозитороии Debian 11.  
       3.Пользуясь конфигуратором команд с официального сайта, составьте набор команд для установки последней версии Zabbix с поддержкой PostgreSQL и Apache.  
       4.Выполните все необходимые команды для установки Zabbix Server и Zabbix Web Server.  
+
 Требования к результатам  
+
       1.Прикрепите в файл README.md скриншот авторизации в админке.  
       2.Приложите в файл README.md текст использованных команд в GitHub.   
 
@@ -41,6 +43,7 @@
 
 ### Список команд в терминале  для установки Zabbix Server 6.0 + PostgreSQL + Zabbix Agent на Ubuntu 22.04 (Jammy),
 
+```
                 Команда	                                                                          Назначение  
 sudo apt update && sudo apt upgrade -y	                                                  Обновление индексов пакетов и системы  
 sudo apt install -y wget gnupg lsb-release ca-certificates curl	                          Установка вспомогательных пакетов для добавления репозиториев  
@@ -93,11 +96,12 @@ sudo systemctl restart zabbix-agent                                             
 
 (в браузере) http://localhost/zabbix или http://10.0.2.15/zabbix	Запуск веб-интерфейса для первичной настройки  
 
-![alt text](https://github.com/SKISHCHENKO/9-02-hw/blob/main/img/zabbix1_1.jpg)
+```
+
+![alt text](https://github.com/SKISHCHENKO/9-02-hw/blob/main/img/zabbix1_1.png)
 
 
 
----
 
 ### Задание 2
 
