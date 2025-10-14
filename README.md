@@ -38,9 +38,9 @@
 
 ## Решение 1
 
-![Задание 1](https://github.com/SKISHCHENKO/9-02-hw/blob/main/img/zabbix_part2_task1_1)
+![Задание 1](https://github.com/SKISHCHENKO/9-02-hw/blob/main/img/zabbix_part2_task1_1.png)
 
-![Задание 1](https://github.com/SKISHCHENKO/9-02-hw/blob/main/img/zabbix_part2_task1_2)
+![Задание 1](https://github.com/SKISHCHENKO/9-02-hw/blob/main/img/zabbix_part2_task1_2.png)
 
 
 
