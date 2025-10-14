@@ -21,7 +21,7 @@
 1. [Руководство по оформлению Markdown файлов](https://gist.github.com/Jekins/2bf2d0638163f1294637#Code)
 
 ---
-### «Система мониторинга Zabbix» Часть II
+# «Система мониторинга Zabbix» Часть II
 
 ## Задание 1
 
@@ -38,7 +38,9 @@
 
 ## Решение 1
 
-![Задание 1](https://github.com/SKISHCHENKO/9-02-hw/blob/main/img/zabbix2task1_1.png)
+![Задание 1](https://github.com/SKISHCHENKO/9-02-hw/blob/main/img/zabbix_part2_task1_1)
+
+![Задание 1](https://github.com/SKISHCHENKO/9-02-hw/blob/main/img/zabbix_part2_task1_2)
 
 
 
