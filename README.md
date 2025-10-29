@@ -58,12 +58,12 @@
 ![Задание 2](https://github.com/SKISHCHENKO/9-02-hw/blob/main/img/recovery_task2_1.png)
 
 
-Переключение с BACKUP на MASTER когда я выключил master
-окт 29 10:37:18 sergk-VirtualBox Keepalived_vrrp[904]: (VI_1) Entering BACKUP STATE (init)
-окт 29 10:37:18 sergk-VirtualBox Keepalived[861]: Startup complete
-окт 29 10:37:18 sergk-VirtualBox systemd[1]: Started Keepalive Daemon (LVS and VRRP).
-окт 29 10:37:18 sergk-VirtualBox Keepalived_vrrp[904]: VRRP_Script(chk_web) succeeded
-окт 29 10:37:21 sergk-VirtualBox Keepalived_vrrp[904]: (VI_1) Entering MASTER STATE
+Переключение с BACKUP на MASTER когда я выключил master  
+окт 29 10:37:18 sergk-VirtualBox Keepalived_vrrp[904]: (VI_1) Entering BACKUP STATE (init)  
+окт 29 10:37:18 sergk-VirtualBox Keepalived[861]: Startup complete  
+окт 29 10:37:18 sergk-VirtualBox systemd[1]: Started Keepalive Daemon (LVS and VRRP).  
+окт 29 10:37:18 sergk-VirtualBox Keepalived_vrrp[904]: VRRP_Script(chk_web) succeeded  
+окт 29 10:37:21 sergk-VirtualBox Keepalived_vrrp[904]: (VI_1) Entering MASTER STATE  
 
 ![Задание 2](https://github.com/SKISHCHENKO/9-02-hw/blob/main/img/recovery_task2_2.png)
 
