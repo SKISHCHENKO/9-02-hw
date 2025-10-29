@@ -1,4 +1,4 @@
-# Домашнее задание к занятию «Система мониторинга Zabbix» - Кищенко Сергей FOPS-41
+# Домашнее задание к занятию 1 «Disaster recovery и Keepalived» - Кищенко Сергей FOPS-41
 
 
 ### Инструкция по выполнению домашнего задания
@@ -41,7 +41,7 @@
 
 ![Задание 1](https://github.com/SKISHCHENKO/9-02-hw/blob/main/img/disaster_task1_4.png)
 
-![Ссылка на файл](https://github.com/SKISHCHENKO/9-02-hw/blob/main/files/hsrp_advanced_hw.pkt)
+[hsrp_advanced_hw.pkt](https://github.com/SKISHCHENKO/9-02-hw/blob/main/files/hsrp_advanced_hw.pkt)
 
 
 ## Задание 2
@@ -53,6 +53,25 @@
 На проверку отправьте получившейся bash-скрипт и конфигурационный файл keepalived, а также скриншот с демонстрацией переезда плавающего ip на другой сервер в случае недоступности порта или файла index.html  
 
 ## Решение 2
+
+проверка сообщений о приоритете между MASTER и BACKUP
+![Задание 2](https://github.com/SKISHCHENKO/9-02-hw/blob/main/img/recovery_task2_1.png)
+
+
+Переключение с BACKUP на MASTER когда я выключил master
+окт 29 10:37:18 sergk-VirtualBox Keepalived_vrrp[904]: (VI_1) Entering BACKUP STATE (init)
+окт 29 10:37:18 sergk-VirtualBox Keepalived[861]: Startup complete
+окт 29 10:37:18 sergk-VirtualBox systemd[1]: Started Keepalive Daemon (LVS and VRRP).
+окт 29 10:37:18 sergk-VirtualBox Keepalived_vrrp[904]: VRRP_Script(chk_web) succeeded
+окт 29 10:37:21 sergk-VirtualBox Keepalived_vrrp[904]: (VI_1) Entering MASTER STATE
+
+![Задание 2](https://github.com/SKISHCHENKO/9-02-hw/blob/main/img/recovery_task2_2.png)
+
+[Настройка keepalived MASTER](https://github.com/SKISHCHENKO/9-02-hw/blob/main/files/keepalived_master.conf)
+
+[Настройка keepalived BACKUP](https://github.com/SKISHCHENKO/9-02-hw/blob/main/keepalived_backup.conf)
+
+[bush скрипт](https://github.com/SKISHCHENKO/9-02-hw/blob/main/files/check_web.sh)
 
 
 # «Система мониторинга Zabbix» Часть II
