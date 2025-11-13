@@ -1,4 +1,4 @@
-# Домашнее задание к занятию 1 «Disaster recovery и Keepalived» - Кищенко Сергей FOPS-41
+# Домашнее задание к занятию 2 «Кластеризация и балансировка нагрузки» - Кищенко Сергей FOPS-41
 
 
 ### Инструкция по выполнению домашнего задания
@@ -21,6 +21,40 @@
 1. [Руководство по оформлению Markdown файлов](https://gist.github.com/Jekins/2bf2d0638163f1294637#Code)
 
 ---
+
+# Домашнее задание к занятию 2 «Кластеризация и балансировка нагрузки»  
+
+## Задание 1  
+
+Запустите два simple python сервера на своей виртуальной машине на разных портах  
+Установите и настройте HAProxy, воспользуйтесь материалами к лекции по ссылке  
+Настройте балансировку Round-robin на 4 уровне.  
+На проверку направьте конфигурационный файл haproxy, скриншоты, где видно перенаправление запросов на разные серверы при обращении к HAProxy. 
+
+## Решение 1
+
+![Задание 1](https://github.com/SKISHCHENKO/9-02-hw/blob/main/img/haproxy_task1_1.png)
+
+![Задание 1](https://github.com/SKISHCHENKO/9-02-hw/blob/main/img/haproxy_task1_2.png)
+
+
+[haproxy_task1.cfg](https://github.com/SKISHCHENKO/9-02-hw/blob/main/files/haproxy_task1.cfg)
+
+## Задание 2  
+
+Запустите три simple python сервера на своей виртуальной машине на разных портах  
+Настройте балансировку Weighted Round Robin на 7 уровне, чтобы первый сервер имел вес 2, второй - 3, а третий - 4  
+HAproxy должен балансировать только тот http-трафик, который адресован домену example.local  
+На проверку направьте конфигурационный файл haproxy, скриншоты, где видно перенаправление запросов на разные серверы при обращении к HAProxy c использованием домена example.local и без него.  
+
+![Задание 1](https://github.com/SKISHCHENKO/9-02-hw/blob/main/img/haproxy_task2_1.png)
+
+![Задание 1](https://github.com/SKISHCHENKO/9-02-hw/blob/main/img/haproxy_task2_2.png)
+
+
+[haproxy_task1.cfg](https://github.com/SKISHCHENKO/9-02-hw/blob/main/files/haproxy_task2.cfg)
+
+
 # Домашнее задание к занятию 1 «Disaster recovery и Keepalived»
 
 ## Задание 1  
